@@ -50,8 +50,8 @@ function DashboardContent() {
   }, []);
 
   const total = books?.length ?? 0;
-  const published = books?.filter((b) => b.published).length ?? 0;
-  const chapters = books?.reduce((n, b) => n + (b.chapters?.length ?? 0), 0) ?? 0;
+  const withAudio = books?.filter((b) => !!b.audioUrl).length ?? 0;
+  const withCover = books?.filter((b) => !!b.coverUrl).length ?? 0;
 
   return (
     <div className="mx-auto max-w-6xl space-y-6">
@@ -66,8 +66,8 @@ function DashboardContent() {
       )}
       <div className="grid gap-4 sm:grid-cols-3">
         <StatCard label="Audiobooks" value={total} icon={<BookAudio className="h-4 w-4" />} />
-        <StatCard label="Published" value={published} icon={<CheckCircle2 className="h-4 w-4" />} />
-        <StatCard label="Total chapters" value={chapters} icon={<ListMusic className="h-4 w-4" />} />
+        <StatCard label="With audio" value={withAudio} icon={<CheckCircle2 className="h-4 w-4" />} />
+        <StatCard label="With cover" value={withCover} icon={<ListMusic className="h-4 w-4" />} />
       </div>
     </div>
   );
