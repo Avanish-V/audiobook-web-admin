@@ -3,21 +3,23 @@ import { getFirestore, type Firestore } from "firebase/firestore";
 
 /**
  * Firebase web config. These are publishable client keys, safe to commit.
- * Replace the placeholder values below with your project's config from:
- *   Firebase Console → Project Settings → Your apps → SDK setup and configuration
- *
- * You can also set them via Vite env vars (VITE_FIREBASE_*) if you prefer.
  */
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY ?? "YOUR_API_KEY",
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN ?? "YOUR_PROJECT.firebaseapp.com",
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID ?? "YOUR_PROJECT_ID",
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET ?? "YOUR_PROJECT.appspot.com",
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID ?? "0000000000",
-  appId: import.meta.env.VITE_FIREBASE_APP_ID ?? "1:0000000000:web:xxxxxxxx",
+  apiKey: "AIzaSyD-placeholder", // overridden below via env if provided
+  authDomain: "techie-bro-5e36c.firebaseapp.com",
+  databaseURL: "https://techie-bro-5e36c-default-rtdb.firebaseio.com",
+  projectId: "techie-bro-5e36c",
+  storageBucket: "techie-bro-5e36c.firebasestorage.app",
+  messagingSenderId: "672290482822",
+  appId: "1:672290482822:web:bbce74536cd1c01eb0bf07",
+  measurementId: "G-DMTJB9QDH5",
 };
 
-export const isFirebaseConfigured = firebaseConfig.apiKey !== "YOUR_API_KEY";
+// Prefer env-provided apiKey when available (VITE_FIREBASE_API_KEY).
+const envApiKey = import.meta.env.VITE_FIREBASE_API_KEY as string | undefined;
+if (envApiKey) firebaseConfig.apiKey = envApiKey;
+
+export const isFirebaseConfigured = firebaseConfig.apiKey !== "AIzaSyD-placeholder";
 
 let app: FirebaseApp | null = null;
 let dbInstance: Firestore | null = null;
