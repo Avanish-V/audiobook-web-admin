@@ -13,22 +13,13 @@ import {
 } from "firebase/firestore";
 import { getDb } from "./firebase";
 
-export interface Chapter {
-  title: string;
-  audioUrl: string;
-  duration?: string; // e.g. "12:34"
-}
-
 export interface Audiobook {
   id: string;
   title: string;
   author: string;
-  narrator?: string;
-  description?: string;
-  coverUrl?: string;
-  language?: string;
-  published: boolean;
-  chapters: Chapter[];
+  description: string;
+  coverUrl: string;
+  audioUrl: string;
   createdAt?: Timestamp | null;
   updatedAt?: Timestamp | null;
 }

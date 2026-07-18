@@ -114,21 +114,20 @@ function BooksList() {
             <TableRow>
               <TableHead>Title</TableHead>
               <TableHead>Author</TableHead>
-              <TableHead>Chapters</TableHead>
-              <TableHead>Status</TableHead>
+              <TableHead>Audio</TableHead>
               <TableHead className="w-32 text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {books === null ? (
               <TableRow>
-                <TableCell colSpan={5} className="text-center text-muted-foreground">
+                <TableCell colSpan={4} className="text-center text-muted-foreground">
                   <Loader2 className="mr-2 inline h-4 w-4 animate-spin" /> Loading…
                 </TableCell>
               </TableRow>
             ) : filtered.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={5} className="py-10 text-center text-muted-foreground">
+                <TableCell colSpan={4} className="py-10 text-center text-muted-foreground">
                   No audiobooks yet.{" "}
                   <Link to="/books/new" className="text-primary underline">
                     Add your first one
@@ -141,12 +140,11 @@ function BooksList() {
                 <TableRow key={b.id}>
                   <TableCell className="font-medium">{b.title}</TableCell>
                   <TableCell className="text-muted-foreground">{b.author}</TableCell>
-                  <TableCell>{b.chapters?.length ?? 0}</TableCell>
                   <TableCell>
-                    {b.published ? (
-                      <Badge>Published</Badge>
+                    {b.audioUrl ? (
+                      <Badge>Ready</Badge>
                     ) : (
-                      <Badge variant="secondary">Draft</Badge>
+                      <Badge variant="secondary">Missing</Badge>
                     )}
                   </TableCell>
                   <TableCell className="text-right">
