@@ -1,24 +1,88 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { ClientOnly } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { AdminShell } from "@/components/AdminShell";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { BookAudio, CheckCircle2, ListMusic, Loader2 } from "lucide-react";
+import { listAudiobooks, type Audiobook } from "@/lib/books";
+import { isFirebaseConfigured } from "@/lib/firebase";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
-  component: Index,
+  head: () => ({
+    meta: [
+      { title: "Dashboard · Audiobook Admin" },
+      { name: "description", content: "Manage your audiobook catalog and chapters." },
+    ],
+  }),
+  component: DashboardPage,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
+function DashboardPage() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+    <AdminShell>
+      <ClientOnly fallback={<DashboardSkeleton />}>
+        <DashboardContent />
+      </ClientOnly>
+    </AdminShell>
+  );
+}
+
+function DashboardSkeleton() {
+  return (
+    <div className="flex h-40 items-center justify-center text-muted-foreground">
+      <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Loading dashboard…
     </div>
+  );
+}
+
+function DashboardContent() {
+  const [books, setBooks] = useState<Audiobook[] | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!isFirebaseConfigured) {
+      setBooks([]);
+      return;
+    }
+    listAudiobooks()
+      .then(setBooks)
+      .catch((e) => setError(e.message ?? "Failed to load"));
+  }, []);
+
+  const total = books?.length ?? 0;
+  const published = books?.filter((b) => b.published).length ?? 0;
+  const chapters = books?.reduce((n, b) => n + (b.chapters?.length ?? 0), 0) ?? 0;
+
+  return (
+    <div className="mx-auto max-w-6xl space-y-6">
+      <div>
+        <h1 className="text-2xl font-semibold tracking-tight">Overview</h1>
+        <p className="text-sm text-muted-foreground">A snapshot of your audiobook catalog.</p>
+      </div>
+      {error && (
+        <div className="rounded-md border border-destructive/30 bg-destructive/10 p-3 text-sm text-destructive">
+          {error}
+        </div>
+      )}
+      <div className="grid gap-4 sm:grid-cols-3">
+        <StatCard label="Audiobooks" value={total} icon={<BookAudio className="h-4 w-4" />} />
+        <StatCard label="Published" value={published} icon={<CheckCircle2 className="h-4 w-4" />} />
+        <StatCard label="Total chapters" value={chapters} icon={<ListMusic className="h-4 w-4" />} />
+      </div>
+    </div>
+  );
+}
+
+function StatCard({ label, value, icon }: { label: string; value: number; icon: React.ReactNode }) {
+  return (
+    <Card>
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <CardTitle className="text-sm font-medium text-muted-foreground">{label}</CardTitle>
+        <div className="text-muted-foreground">{icon}</div>
+      </CardHeader>
+      <CardContent>
+        <div className="text-3xl font-semibold tracking-tight">{value}</div>
+      </CardContent>
+    </Card>
   );
 }
