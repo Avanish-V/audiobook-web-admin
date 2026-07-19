@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
 import { ClientOnly } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { AdminShell } from "@/components/AdminShell";
@@ -39,6 +39,12 @@ export const Route = createFileRoute("/books")({
 });
 
 function BooksPage() {
+  const path = useRouterState({ select: (state) => state.location.pathname });
+
+  if (path !== "/books") {
+    return <Outlet />;
+  }
+
   return (
     <AdminShell>
       <ClientOnly fallback={<Loading />}>
