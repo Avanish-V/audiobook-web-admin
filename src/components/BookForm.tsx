@@ -61,6 +61,7 @@ export function BookForm({ initial, submitLabel, onSubmit }: BookFormProps) {
           </Field>
           <Field label="Cover image URL" className="sm:col-span-2">
             <Input
+              type="url"
               value={coverUrl}
               onChange={(e) => setCoverUrl(e.target.value)}
               placeholder="https://…jpg"
@@ -68,6 +69,7 @@ export function BookForm({ initial, submitLabel, onSubmit }: BookFormProps) {
           </Field>
           <Field label="Audio URL" className="sm:col-span-2" required>
             <Input
+              type="url"
               value={audioUrl}
               onChange={(e) => setAudioUrl(e.target.value)}
               placeholder="https://…mp3"

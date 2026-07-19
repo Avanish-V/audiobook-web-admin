@@ -11,7 +11,7 @@ export const Route = createFileRoute("/books/$id")({
   head: () => ({
     meta: [
       { title: "Edit audiobook · Admin" },
-      { name: "description", content: "Edit an audiobook and its chapters." },
+      { name: "description", content: "Edit an audiobook in your catalog." },
     ],
   }),
   component: EditBookPage,

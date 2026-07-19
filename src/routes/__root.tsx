@@ -80,7 +80,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "Audiobook Admin" },
       { name: "description", content: "Admin panel for managing an audiobook platform." },
       { property: "og:title", content: "Audiobook Admin" },
-      { property: "og:description", content: "Manage audiobooks and chapters." },
+      { property: "og:description", content: "Manage audiobook titles and audio URLs." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],

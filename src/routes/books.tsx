@@ -164,7 +164,7 @@ function BooksList() {
                           <AlertDialogHeader>
                             <AlertDialogTitle>Delete "{b.title}"?</AlertDialogTitle>
                             <AlertDialogDescription>
-                              This permanently removes the audiobook and its chapters from Firestore.
+                              This permanently removes the audiobook from Firestore.
                             </AlertDialogDescription>
                           </AlertDialogHeader>
                           <AlertDialogFooter>
