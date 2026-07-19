@@ -11,7 +11,7 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Dashboard · Audiobook Admin" },
-      { name: "description", content: "Manage your audiobook catalog and chapters." },
+      { name: "description", content: "Manage your audiobook catalog." },
     ],
   }),
   component: DashboardPage,

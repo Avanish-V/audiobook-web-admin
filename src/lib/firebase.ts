@@ -1,11 +1,8 @@
-import { initializeApp, getApps, type FirebaseApp } from "firebase/app";
-import { getFirestore, type Firestore } from "firebase/firestore";
-
 /**
- * Firebase web config. These are publishable client keys, safe to commit.
+ * Public Firebase project metadata. The API key is read securely on the server
+ * from GOOGLE_API_KEY so it is not embedded in the browser bundle.
  */
-const firebaseConfig = {
-  apiKey: "AIzaSyD-placeholder", // overridden below via env if provided
+export const firebaseProjectConfig = {
   authDomain: "techie-bro-5e36c.firebaseapp.com",
   databaseURL: "https://techie-bro-5e36c-default-rtdb.firebaseio.com",
   projectId: "techie-bro-5e36c",
@@ -15,24 +12,4 @@ const firebaseConfig = {
   measurementId: "G-DMTJB9QDH5",
 };
 
-// Prefer env-provided apiKey when available (VITE_FIREBASE_API_KEY).
-const envApiKey = import.meta.env.VITE_FIREBASE_API_KEY as string | undefined;
-if (envApiKey) firebaseConfig.apiKey = envApiKey;
-
-export const isFirebaseConfigured = firebaseConfig.apiKey !== "AIzaSyD-placeholder";
-
-let app: FirebaseApp | null = null;
-let dbInstance: Firestore | null = null;
-
-export function getDb(): Firestore {
-  if (typeof window === "undefined") {
-    throw new Error("Firestore is only available in the browser.");
-  }
-  if (!app) {
-    app = getApps()[0] ?? initializeApp(firebaseConfig);
-  }
-  if (!dbInstance) {
-    dbInstance = getFirestore(app);
-  }
-  return dbInstance;
-}
+export const isFirebaseConfigured = Boolean(firebaseProjectConfig.projectId);
